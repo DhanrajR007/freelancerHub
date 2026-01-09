@@ -1,10 +1,9 @@
-import express from "express";
+import app from './src/app.js'
+import dotenv from 'dotenv';
+import { config } from './src/config/config.js';
+dotenv.config();
 
 
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({extended:true}))
-
-
-export default app;
+app.listen(config.port,()=>{
+    console.log(`Server is running on port ${config.port}`);
+})
