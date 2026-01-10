@@ -1,19 +1,21 @@
 import { findUserbyEmail } from "../dao/auth.dao.js";
 import User from "../model/user.model.js";
 import { BadRequestError, ConflictError } from "../utils/errorHandler.js";
-import { bcryptPassword, comparePassword } from "../utils/helper.js";
+import { bcryptPassword, comparePassword, signToken } from "../utils/helper.js";
 
-export const loginService = async(email, password) => {
-  const isUserExist = await findUserbyEmail(email);
-  if (!isUserExist) {
-    throw new BadRequestError("invalid credentials");
-  }
+export const loginService = async (email, password) => {
   try {
-    const isValidPassword = comparePassword(password, isUserExist.password);
+    const user = await findUserbyEmail(email);
+    // console.log(user)
+    if (!user) {
+      throw new BadRequestError("invalid credentials");
+    }
+    const isValidPassword = comparePassword(password, user.password);
     if (!isValidPassword) {
       throw new BadRequestError("invalid credentials");
     }
-    return isUserExist;
+    const token = signToken(user);
+    return {user, token };
   } catch (err) {}
 };
 
@@ -24,9 +26,10 @@ export const registerService = async (name, username, email, password) => {
   }
   try {
     const hash = await bcryptPassword(password);
-    const user = await User.create({name, username, email, password:hash});
-    return user;
+    const user = await User.create({ name, username, email, password: hash });
+    const token = signToken(user);
+    return { user, token };
   } catch (err) {
-    throw new Error(err.message)
+    throw new Error(err.message);
   }
 };
