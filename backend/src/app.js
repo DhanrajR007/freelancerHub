@@ -2,7 +2,7 @@ import express from "express";
 import authrouter from "./router/auth.router.js"
 import { errorHandler } from "./utils/errorHandler.js";
 import cookieParser from "cookie-parser";
-
+import clientRouter from './router/client.route.js'
 
 
 const app = express();
@@ -13,5 +13,6 @@ app.use(errorHandler)
 app.use(cookieParser())
 
 app.use("/api/auth",authrouter)
+app.use("/api/client",clientRouter)
 
 export default app;
