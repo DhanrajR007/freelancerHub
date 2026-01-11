@@ -39,3 +39,11 @@ export const createContract = async (
   });
   return Contract;
 };
+export const getContractByClientId = async (clientId) => {
+  const client = await contract.find({ clientId });
+  return client;
+};
+export const getContractById = async (id) => {
+  const client = await contract.findOne({ _id: id });
+  return client;
+};

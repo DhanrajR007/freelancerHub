@@ -1,7 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { ConflictError } from "../utils/errorHandler.js";
-import { createContract } from "../dao/all.dao.js";
+import { createContract, getContractByClientId, getContractById } from "../dao/all.dao.js";
 
 const router = express.Router();
 
@@ -35,5 +35,24 @@ router.post("/create", authMiddleware, async (req, res) => {
     });
   }
 });
+
+router.get("/all", authMiddleware, async (req, res) => {
+  const {clientId}= req.body
+  const allContract = await getContractByClientId(clientId);
+  res.status(200).json({
+    success: true,
+    message: "User logged in successfully",
+    allContract,
+  });
+});
+router.get("/:id",authMiddleware,async(req,res)=>{
+    const { id } = req.params 
+    const contract = await getContractById(id)
+     res.status(200).json({
+    success: true,
+    message: "User logged in successfully",
+    contract,
+  });
+})
 
 export default router;
