@@ -1,11 +1,11 @@
 import express from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { ConflictError } from "../utils/errorHandler.js";
-import { createClient, getClienByUserId } from "../dao/all.dao.js";
+import { createClient, getClienById, getClienByUserId } from "../dao/all.dao.js";
 
 const router = express.Router();
 
-router.post("/create", authMiddleware, async(req, res) => {
+router.post("/create", authMiddleware, async (req, res) => {
   try {
     const { name, email, company, address } = req.body;
     const user = req.user;
@@ -26,13 +26,22 @@ router.post("/create", authMiddleware, async(req, res) => {
     });
   }
 });
-router.get("/",authMiddleware,async(req,res)=>{
-const user = req.user 
-const allClints = await getClienByUserId(user._id)
-res.status(200).json({
-      success: true,
-      message: "User logged in successfully",
-      allClints,
-    });
+router.get("/all", authMiddleware, async (req, res) => {
+  const user = req.user;
+  const allClients = await getClienByUserId(user._id);
+  res.status(200).json({
+    success: true,
+    message: "User logged in successfully",
+    allClients,
+  });
+});
+router.get("/:id",authMiddleware,async(req,res)=>{
+    const { id } = req.params 
+    const client = await getClienById(id)
+     res.status(200).json({
+    success: true,
+    message: "User logged in successfully",
+    client,
+  });
 })
 export default router;

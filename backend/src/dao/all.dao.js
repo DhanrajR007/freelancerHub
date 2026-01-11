@@ -14,3 +14,7 @@ export const getClienByUserId = async (userId)=>{
     const client = await Client.find({UserId:userId})
     return client
 }
+export const getClienById = async (id)=>{
+    const client = await Client.findOne({_id:id})
+    return client
+}
