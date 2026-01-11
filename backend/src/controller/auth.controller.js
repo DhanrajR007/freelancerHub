@@ -8,7 +8,6 @@ export const loginController = async (req, res) => {
   }
   try {
     const { user, token } = await loginService(email, password);
-    console.log(user)
     res.cookie("accessToken", token);
     // req.user = user
     res.status(201).json({

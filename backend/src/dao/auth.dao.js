@@ -8,3 +8,14 @@ export const findUserbyEmail = async (email) => {
     throw new Error(err);
   }
 };
+
+export const findUserbyId = async (id) => {
+  try {
+    const user = await User.findById(id)
+    return user;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+
