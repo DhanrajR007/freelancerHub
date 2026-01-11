@@ -10,3 +10,7 @@ export const createClient = async (name, email, company, address, user) => {
   });
   return client
 };
+export const getClienByUserId = async (userId)=>{
+    const client = await Client.find({UserId:userId})
+    return client
+}
