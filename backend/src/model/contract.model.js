@@ -30,7 +30,10 @@ const contractSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    active: true,
+    active: {
+      type:Boolean,
+      default:true
+    },
   },
   {
     timestamps: true,

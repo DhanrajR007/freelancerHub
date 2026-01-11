@@ -9,7 +9,7 @@ export const loginController = async (req, res) => {
   try {
     const { user, token } = await loginService(email, password);
     res.cookie("accessToken", token);
-    // req.user = user
+    req.user = user
     res.status(201).json({
       user,
       token,
@@ -38,6 +38,7 @@ export const registerController = async (req, res) => {
       password
     );
     res.cookie("accessToken", token);
+    req.user = user
     res.status(201).json({
       user,
       token,
