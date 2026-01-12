@@ -61,7 +61,7 @@ export const createInvoice = async (
     return sum + item.qty * item.price;
   }, 0);
 
-  const taxAmount = subTotal * tax;
+  const taxAmount = subTotal * (tax/100);
   const totalAmount = subTotal + taxAmount;
 
   const invoice = await Invoice.create({
@@ -71,7 +71,7 @@ export const createInvoice = async (
     invoiceNumber,
     items,
     subTotal,
-    tax,
+    tax:taxAmount,  
     totalAmount,
     status: "unpaid",
 
