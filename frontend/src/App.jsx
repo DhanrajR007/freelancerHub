@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
+import Auth from "./pages/Auth";
 
 const App = () => {
-  return (
-    <div>App</div>
-  )
-}
+  return <>
+  
+  <Auth /></>;
+};
 
-export default App
+export default App;
