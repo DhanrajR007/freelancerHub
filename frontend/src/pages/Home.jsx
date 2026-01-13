@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "@tanstack/react-router";
 
 const Home = () => {
   return (
@@ -33,24 +33,26 @@ const Home = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-            <button className="w-full sm:w-auto group relative px-8 py-4 bg-white text-neutral-950 rounded-full font-semibold text-lg tracking-wide hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] active:scale-95">
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Create Client
-                <svg
-                  className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </span>
-            </button>
+            <Link to="/create-client" className="w-full sm:w-auto">
+              <button className="w-full group relative px-8 py-4 bg-white text-neutral-950 rounded-full font-semibold text-lg tracking-wide hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] active:scale-95">
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Create Client
+                  <svg
+                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </Link>
 
             <button className="w-full sm:w-auto px-8 py-4 rounded-full font-semibold text-lg tracking-wide text-white border border-white/20 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
               Watch Demo
