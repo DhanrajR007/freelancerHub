@@ -1,10 +1,15 @@
 import React from "react";
-import Auth from "./pages/Auth";
+import Home from "./pages/Home";
+import { Outlet } from "@tanstack/react-router";
+import Navbar from "./components/Navbar";
 
 const App = () => {
-  return <>
-  
-  <Auth /></>;
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
 };
 
 export default App;
