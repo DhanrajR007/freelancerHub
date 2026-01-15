@@ -1,13 +1,23 @@
 import React, { useState } from "react";
+import { RegisterUser } from "../api/auth.api";
 
 const SignUp = ({ onSignInClick }) => {
   const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const payload = {
+    name,
+    username: userName,
+    email,
+    password,
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log(name, userName, email, password);
     e.preventDefault();
-    // TODO: Add sign up logic
+    const data = await RegisterUser(payload);
+    console.log(data);
   };
 
   return (
@@ -21,6 +31,19 @@ const SignUp = ({ onSignInClick }) => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
+          <div className="group">
+            <label className="block text-xs text-zinc-500 font-medium mb-1.5 ml-1">
+              USER NAME
+            </label>
+            <input
+              type="text"
+              placeholder="JohnDoe_01"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-lg bg-zinc-900/50 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-white focus:bg-zinc-900 transition-all duration-200"
+            />
+          </div>
           <div className="group">
             <label className="block text-xs text-zinc-500 font-medium mb-1.5 ml-1">
               FULL NAME

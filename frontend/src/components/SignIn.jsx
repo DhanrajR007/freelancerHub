@@ -1,12 +1,20 @@
 import React, { useState } from "react";
+import { LoginUser } from "../api/auth.api";
 
 const SignIn = ({ onSignUpClick }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const payload = {
+    email,
+    password,
+  };
+  const handleSubmit = async (e) => {
+    console.log(payload);
     e.preventDefault();
     // TODO: Add sign in logic
+    const data = await LoginUser(payload);
+    console.log(data);
   };
 
   return (
