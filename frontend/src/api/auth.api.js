@@ -7,5 +7,5 @@ export const LoginUser = async (userData) => {
 
 export const RegisterUser = async (formData) => {
   const response = await axiosInstance.post("/auth/register", formData);
-  return response;
+  return response.data;
 };

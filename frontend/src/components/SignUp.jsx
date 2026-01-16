@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { RegisterUser } from "../api/auth.api";
+import { useDispatch } from "react-redux";
+import { login } from "../store/slice/auth.slice";
 
 const SignUp = ({ onSignInClick }) => {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const payload = {
     name,
     username: userName,
@@ -17,6 +20,8 @@ const SignUp = ({ onSignInClick }) => {
     console.log(name, userName, email, password);
     e.preventDefault();
     const data = await RegisterUser(payload);
+    dispatch(login(data.user));
+    localStorage.setItem("token", data.token);
     console.log(data);
   };
 

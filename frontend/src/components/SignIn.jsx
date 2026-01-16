@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { LoginUser } from "../api/auth.api";
+import { useDispatch } from "react-redux";
+import { login } from "../store/slice/auth.slice";
 
 const SignIn = ({ onSignUpClick }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const dispatch = useDispatch();
   const payload = {
     email,
     password,
@@ -14,6 +16,8 @@ const SignIn = ({ onSignUpClick }) => {
     e.preventDefault();
     // TODO: Add sign in logic
     const data = await LoginUser(payload);
+    dispatch(login(data.user));
+    localStorage.setItem("token", data.token);
     console.log(data);
   };
 
