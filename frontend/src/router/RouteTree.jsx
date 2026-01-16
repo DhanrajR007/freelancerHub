@@ -8,6 +8,7 @@ import Pricing from "../pages/Pricing";
 import CreateClient from "../pages/CreateClient";
 import CreateInvoice from "../pages/CreateInvoice";
 import CreateContract from "../pages/CreateContract";
+import Profile from "../pages/Profile";
 
 const rootRoute = createRootRoute({
   component: App,
@@ -61,6 +62,12 @@ const createContractRoute = createRoute({
   component: CreateContract,
 });
 
+const profileRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "profile",
+  component: Profile,
+});
+
 const postsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "posts",
@@ -75,5 +82,6 @@ export const routeTree = rootRoute.addChildren([
   createClientRoute,
   createInvoiceRoute,
   createContractRoute,
+  profileRoute,
   postsRoute,
 ]);
