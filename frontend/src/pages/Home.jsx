@@ -11,7 +11,7 @@ const Home = () => {
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/20 blur-[120px] animate-aurora animation-delay-5000 mix-blend-screen"></div>
 
         {/* Subtle Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-size-[4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-size-[4rem_4rem] mask-image-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
         {/* Stars/Dust particles could go here if using a canvas, keeping it CSS for now */}
       </div>
@@ -53,7 +53,7 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto pt-4">
               <Link to="/create-client" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto group relative px-8 py-4 bg-white text-black rounded-full font-semibold text-lg hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] overflow-hidden">
-                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
                   <span className="relative flex items-center justify-center gap-2">
                     Get Started Free
                     <svg
@@ -163,11 +163,11 @@ const Home = () => {
 
               {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.05] transition-colors">
+                <div className="p-5 rounded-2xl bg-white/3 border border-white/5 hover:bg-white/5 transition-colors">
                   <p className="text-sm text-neutral-500 mb-2">Total Budget</p>
                   <p className="text-2xl font-semibold text-white">$12,400</p>
                 </div>
-                <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.05] transition-colors">
+                <div className="p-5 rounded-2xl bg-white/3 border border-white/5 hover:bg-white/5 transition-colors">
                   <p className="text-sm text-neutral-500 mb-2">Timeline</p>
                   <p className="text-2xl font-semibold text-white">4 Weeks</p>
                 </div>
@@ -200,7 +200,7 @@ const Home = () => {
                 ].map((step, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.02] hover:bg-white/[0.05] transition-colors cursor-pointer group/item"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white/2 border border-white/2 hover:bg-white/5 transition-colors cursor-pointer group/item"
                   >
                     <div className="flex items-center gap-4">
                       <div

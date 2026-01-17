@@ -76,7 +76,7 @@ const Profile = () => {
 
         {/* 2. Availability Status */}
         <div
-          className="rounded-[2rem] bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-6 flex flex-col justify-between group hover:border-emerald-500/30 transition-colors animate-fade-in-up opacity-0"
+          className="rounded-4xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-6 flex flex-col justify-between group hover:border-emerald-500/30 transition-colors animate-fade-in-up opacity-0"
           style={{ animationDelay: "100ms" }}
         >
           <div className="flex justify-between items-start">
@@ -104,7 +104,7 @@ const Profile = () => {
 
         {/* 3. Social Links Grid */}
         <div
-          className="rounded-[2rem] bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-4 grid grid-cols-2 gap-2 animate-fade-in-up opacity-0"
+          className="rounded-4xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-4 grid grid-cols-2 gap-2 animate-fade-in-up opacity-0"
           style={{ animationDelay: "150ms" }}
         >
           {[Github, Twitter, Linkedin, Mail].map((Icon, i) => (
@@ -121,7 +121,7 @@ const Profile = () => {
 
         {/* 4. Stats Card (Wide) */}
         <div
-          className="md:col-span-2 rounded-[2rem] bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-8 flex items-center justify-around group hover:border-white/10 transition-colors relative overflow-hidden animate-fade-in-up opacity-0"
+          className="md:col-span-2 rounded-4xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-8 flex items-center justify-around group hover:border-white/10 transition-colors relative overflow-hidden animate-fade-in-up opacity-0"
           style={{ animationDelay: "200ms" }}
         >
           <div className="absolute top-0 right-0 p-[20%] bg-indigo-500/5 rounded-full blur-[80px] group-hover:bg-indigo-500/10 transition-colors"></div>
@@ -145,7 +145,7 @@ const Profile = () => {
 
         {/* 5. Tech Stack (Tall) */}
         <div
-          className="md:row-span-2 rounded-[2rem] bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-6 flex flex-col group hover:border-indigo-500/30 transition-colors animate-fade-in-up opacity-0"
+          className="md:row-span-2 rounded-4xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-6 flex flex-col group hover:border-indigo-500/30 transition-colors animate-fade-in-up opacity-0"
           style={{ animationDelay: "250ms" }}
         >
           <div className="mb-6 flex items-center justify-between">
@@ -201,7 +201,7 @@ const Profile = () => {
           </div>
 
           <div className="flex-1 grid grid-cols-2 gap-4 z-10 w-full h-[300px]">
-            <div className="rounded-[1.5rem] bg-neutral-800 border border-white/5 overflow-hidden relative group/work cursor-pointer shadow-2xl">
+            <div className="rounded-3xl bg-neutral-800 border border-white/5 overflow-hidden relative group/work cursor-pointer shadow-2xl">
               <div className="absolute inset-x-0 bottom-0 top-1/2 bg-linear-to-t from-black/80 to-transparent opacity-0 group-hover/work:opacity-100 transition-all duration-500 z-10 flex items-end p-6">
                 <div>
                   <p className="text-white font-bold text-lg">
@@ -217,7 +217,7 @@ const Profile = () => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-white/5 group-hover/work:scale-[1.2] transition-transform duration-1000"></div>
               </div>
             </div>
-            <div className="rounded-[1.5rem] bg-neutral-800 border border-white/5 overflow-hidden relative group/work cursor-pointer shadow-2xl">
+            <div className="rounded-3xl bg-neutral-800 border border-white/5 overflow-hidden relative group/work cursor-pointer shadow-2xl">
               <div className="absolute inset-x-0 bottom-0 top-1/2 bg-linear-to-t from-black/80 to-transparent opacity-0 group-hover/work:opacity-100 transition-all duration-500 z-10 flex items-end p-6">
                 <div>
                   <p className="text-white font-bold text-lg">E-commerce App</p>

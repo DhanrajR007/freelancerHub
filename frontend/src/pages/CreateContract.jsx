@@ -172,7 +172,7 @@ const CreateContract = () => {
 
                 {/* Terms */}
                 <div className="space-y-2 pt-4">
-                  <label className="block text-xs font-medium text-neutral-400 font-mono uppercase flex justify-between">
+                  <label className=" text-xs font-medium text-neutral-400 font-mono uppercase flex justify-between">
                     <span>Terms & Conditions</span>
                     <span className="text-neutral-600 flex items-center gap-1">
                       <PenTool size={10} /> Markdown supported

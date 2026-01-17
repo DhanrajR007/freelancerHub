@@ -9,3 +9,8 @@ export const RegisterUser = async (formData) => {
   const response = await axiosInstance.post("/auth/register", formData);
   return response.data;
 };
+
+export const GetMe = async () => {
+  const response = await axiosInstance.get("/auth/me");
+  return response.data;
+};
