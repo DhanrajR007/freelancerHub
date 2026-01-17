@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer base {
+  body {
+    @apply bg-neutral-950 text-white;
+  }
+}
+
 @theme {
   --animate-aurora: aurora 10s linear infinite;
   --animate-float: float 6s ease-in-out infinite;
