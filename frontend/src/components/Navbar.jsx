@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   return (
     <nav className="absolute top-0 left-0 w-full z-50 p-6 flex justify-between items-center max-w-7xl mx-auto right-0">
       <Link to="/" className="flex items-center gap-2">
@@ -32,12 +34,21 @@ const Navbar = () => {
         </Link>
       </div>
       <button className="px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors">
-        <Link
-          to="/auth"
-          className="hover:text-white transition-colors [&.active]:text-white"
-        >
-          Login
-        </Link>
+        {isAuthenticated ? (
+          <Link
+            to="/dashboard"
+            className="hover:text-white transition-colors [&.active]:text-white"
+          >
+            Dashboard
+          </Link>
+        ) : (
+          <Link
+            to="/auth"
+            className="hover:text-white transition-colors [&.active]:text-white"
+          >
+            Login
+          </Link>
+        )}
       </button>
     </nav>
   );

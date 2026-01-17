@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { LoginUser } from "../api/auth.api";
 import { useDispatch } from "react-redux";
 import { login } from "../store/slice/auth.slice";
+import { useNavigate } from "@tanstack/react-router";
 
 const SignIn = ({ onSignUpClick }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const payload = {
     email,
     password,
@@ -19,6 +21,7 @@ const SignIn = ({ onSignUpClick }) => {
     dispatch(login(data.user));
     localStorage.setItem("token", data.token);
     console.log(data);
+    navigate({ to: "/dashboard" });
   };
 
   return (

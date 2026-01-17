@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { RegisterUser } from "../api/auth.api";
 import { useDispatch } from "react-redux";
 import { login } from "../store/slice/auth.slice";
+import { useNavigate } from "@tanstack/react-router";
 
 const SignUp = ({ onSignInClick }) => {
   const [name, setName] = useState("");
@@ -9,6 +10,7 @@ const SignUp = ({ onSignInClick }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const payload = {
     name,
     username: userName,
@@ -22,6 +24,7 @@ const SignUp = ({ onSignInClick }) => {
     const data = await RegisterUser(payload);
     dispatch(login(data.user));
     localStorage.setItem("token", data.token);
+    navigate({ to: "/dashboard" });
     console.log(data);
   };
 
