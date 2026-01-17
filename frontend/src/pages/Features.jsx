@@ -77,35 +77,39 @@ const Features = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white relative overflow-hidden selection:bg-purple-500/30 pt-20">
+    <div className="min-h-screen bg-neutral-950 text-white relative overflow-hidden selection:bg-purple-500/30 pt-24 pb-20">
       {/* Background decoration */}
       <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-600/20 rounded-full blur-[128px] animate-pulse"></div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-[128px] animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[100px]"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center max-w-2xl mx-auto mb-20">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-20 space-y-6">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
             Everything you need to <br />
-            <span className="text-violet-400">run your business.</span>
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-violet-400 to-indigo-400">
+              run your business.
+            </span>
           </h1>
-          <p className="text-neutral-400 text-lg">
+          <p className="text-neutral-400 text-lg md:text-xl leading-relaxed animate-fade-in-up delay-100">
             Powerful tools designed specifically for freelancers, consultants,
             and agencies. Focus on your work, not the paperwork.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {features.map((feature, i) => (
             <div
               key={i}
-              className="group p-8 rounded-3xl bg-neutral-900/50 border border-white/5 hover:border-violet-500/30 transition-all duration-300 hover:bg-neutral-900 shadow-lg hover:shadow-violet-500/10"
+              className="group p-8 rounded-3xl bg-neutral-900/40 backdrop-blur-sm border border-white/5 hover:border-violet-500/30 transition-all duration-500 hover:bg-neutral-900/80 hover:-translate-y-1 shadow-lg hover:shadow-violet-500/10"
+              style={{ animationDelay: `${i * 100}ms` }}
             >
-              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-violet-500/20 transition-all duration-500">
                 <svg
-                  className="w-6 h-6 text-violet-400"
+                  className="w-7 h-7 text-neutral-400 group-hover:text-violet-400 transition-colors duration-500"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -113,10 +117,10 @@ const Features = () => {
                   {feature.icon}
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 group-hover:text-violet-300 transition-colors">
+              <h3 className="text-xl font-bold mb-3 text-neutral-200 group-hover:text-white transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-neutral-400 leading-relaxed text-sm">
+              <p className="text-neutral-400 leading-relaxed text-sm group-hover:text-neutral-300 transition-colors">
                 {feature.desc}
               </p>
             </div>
@@ -124,15 +128,23 @@ const Features = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="mt-32 p-12 rounded-3xl bg-linear-to-r from-violet-900/50 to-indigo-900/50 border border-white/10 text-center relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
-          <div className="relative z-10">
-            <h2 className="text-3xl font-bold mb-6">
-              Ready to streamline your workflow?
-            </h2>
-            <button className="px-8 py-4 bg-white text-neutral-950 rounded-full font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-              Get Started for Free
-            </button>
+        <div className="mt-32 relative group cursor-pointer">
+          <div className="absolute inset-0 bg-linear-to-r from-violet-600 to-indigo-600 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+          <div className="relative p-12 md:p-16 rounded-3xl bg-neutral-900 border border-white/10 text-center overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+
+            <div className="relative z-10 space-y-8">
+              <h2 className="text-3xl md:text-5xl font-bold">
+                Ready to streamline your workflow?
+              </h2>
+              <p className="text-neutral-400 max-w-xl mx-auto text-lg">
+                Join thousands of freelancers who are saving time and earning
+                more with our platform.
+              </p>
+              <button className="px-10 py-5 bg-white text-neutral-950 rounded-full font-bold text-lg hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-all duration-300">
+                Get Started for Free
+              </button>
+            </div>
           </div>
         </div>
       </div>

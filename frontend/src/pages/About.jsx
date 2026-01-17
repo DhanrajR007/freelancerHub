@@ -104,47 +104,6 @@ const About = () => {
           ))}
         </div>
 
-        {/* Core Values */}
-        <div className="mb-32">
-          <h2 className="text-3xl font-bold mb-12 text-center">
-            How We Operate
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Transparency",
-                desc: "No hidden fees. No dark patterns. Just clear, honest business.",
-                color: "bg-blue-500",
-              },
-              {
-                title: "Empowerment",
-                desc: "We build tools that give you superpowers, not handcuffs.",
-                color: "bg-green-500",
-              },
-              {
-                title: "Community",
-                desc: "Success is a multiplayer game. We foster connection.",
-                color: "bg-purple-500",
-              },
-            ].map((value, i) => (
-              <div
-                key={i}
-                className="p-8 rounded-3xl bg-neutral-900 border border-white/10 hover:border-violet-500/30 transition-colors group"
-              >
-                <div
-                  className={`w-12 h-12 rounded-2xl ${value.color} bg-opacity-10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
-                >
-                  <div className={`w-3 h-3 rounded-full ${value.color}`}></div>
-                </div>
-                <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
-                <p className="text-neutral-400 leading-relaxed text-sm">
-                  {value.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Call to Action */}
         <div className="text-center py-20 border-t border-white/10">
           <h2 className="text-4xl font-bold mb-6">
