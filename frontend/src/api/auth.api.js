@@ -12,5 +12,5 @@ export const RegisterUser = async (formData) => {
 
 export const GetMe = async () => {
   const response = await axiosInstance.get("/auth/me");
-  return response.data;
+  return response.data.user;
 };

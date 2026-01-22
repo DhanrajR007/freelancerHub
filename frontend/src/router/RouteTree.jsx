@@ -9,6 +9,7 @@ import CreateClient from "../pages/CreateClient";
 import CreateInvoice from "../pages/CreateInvoice";
 import CreateContract from "../pages/CreateContract";
 import Dashboard from "../pages/Dashboard";
+import { checkAuth } from "../utils/helper";
 
 const rootRoute = createRootRoute({
   component: App,
@@ -66,6 +67,7 @@ const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "dashboard",
   component: Dashboard,
+  beforeLoad: checkAuth,
 });
 
 const postsRoute = createRoute({

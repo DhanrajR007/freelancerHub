@@ -17,8 +17,11 @@ import {
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getAllClient } from "../api/client.api";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [clients, setClients] = useState([
     {
@@ -74,11 +77,6 @@ const Dashboard = () => {
     setIsCreateModalOpen(false);
   };
 
-  useEffect(() => {
-    const clints = getAllClient().then((res) => res.allClients);
-    console.log(clints);
-  }, []);
-
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-indigo-500/30 pb-20">
       {/* Background Ambience */}
@@ -129,10 +127,8 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white">Alex Morgan</h2>
-                  <p className="text-sm text-indigo-300">
-                    Senior Product Designer
-                  </p>
+                  <h2 className="text-xl font-bold text-white">{user.name}</h2>
+                  <p className="text-sm text-indigo-300">{user.email}</p>
                 </div>
               </div>
 
