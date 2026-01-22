@@ -4,25 +4,22 @@ import {
   Mail,
   Building,
   Phone,
-  MapPin,
   Plus,
   Search,
   MoreVertical,
-  Globe,
+  CreditCard,
   Briefcase,
   X,
-  CreditCard,
-  FileText,
+  Loader2,
   CheckCircle2,
 } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { getAllClient } from "../api/client.api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createClient, getAllClient } from "../api/client.api";
+import { updateClients } from "../store/slice/client.slice";
+import { useQuery } from "@tanstack/react-query";
 
 const Dashboard = () => {
-  const user = useSelector((state) => state.auth.user);
-  console.log(user);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  // Dummy Data
   const [clients, setClients] = useState([
     {
       id: 1,
@@ -30,23 +27,35 @@ const Dashboard = () => {
       company: "TechFlow Solutions",
       email: "marcus@techflow.com",
       status: "Active",
-      avatar: "M",
+      phone: "+1 (555) 123-4567",
+      address: "123 Tech Blvd, San Francisco, CA",
     },
     {
       id: 2,
       name: "Sarah Williams",
       company: "Design Crafters",
       email: "sarah@designcrafters.com",
-      status: "Pending",
-      avatar: "S",
+      status: "Active",
+      phone: "+1 (555) 987-6543",
+      address: "456 Design Ln, New York, NY",
     },
     {
       id: 3,
       name: "James Chen",
       company: "Apex Innovations",
       email: "james.c@apex.io",
+      status: "Pending",
+      phone: "+1 (555) 456-7890",
+      address: "789 Innovation Dr, Austin, TX",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      company: "Wanderlust Travel",
+      email: "emily@wanderlust.com",
       status: "Active",
-      avatar: "J",
+      phone: "+1 (555) 222-3333",
+      address: "101 Travel Rd, Miami, FL",
     },
   ]);
 
@@ -54,27 +63,49 @@ const Dashboard = () => {
     name: "",
     email: "",
     company: "",
-    phone: "",
     address: "",
   });
+
+  const user = useSelector((state) => state.auth.user);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const dispatch = useDispatch();
+  const {
+    data: clientss = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["clients"],
+    queryFn: getAllClient,
+    refetchInterval: 30000, // Refetch every 30 seconds to update click counts
+    staleTime: 0, // Consider data stale immediately so it refetches when invalidated
+  });
+  useEffect(() => {
+    dispatch(updateClients(clientss.allClients));
+    console.log(clientss.allClients);
+  }, [clientss]);
+  if (isLoading) {
+    return <div className="text-white">Loading...</div>;
+  }
+
+  if (isError) {
+    return <div className="text-red-500">Error: {error.message}</div>;
+  }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newClient = {
-      id: clients.length + 1,
-      name: formData.name,
-      company: formData.company,
-      email: formData.email,
-      status: "Active",
-      avatar: formData.name.charAt(0).toUpperCase(),
-    };
-    setClients([...clients, newClient]);
-    setFormData({ name: "", email: "", company: "", phone: "", address: "" });
+    setIsSubmitting(true);
+    const response = await createClient(formData);
+    console.log(response);
+    setFormData({ name: "", email: "", company: "", address: "" });
     setIsCreateModalOpen(false);
+    setIsSubmitting(false);
   };
 
   return (
@@ -94,85 +125,60 @@ const Dashboard = () => {
               Dashboard
             </h1>
             <p className="text-neutral-400 mt-1">
-              Welcome back, Alex. Here's what's happening today.
+              Overview of your activity and clients (Demo Mode).
             </p>
           </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setIsCreateModalOpen(true)}
-              className="flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-xl font-semibold hover:bg-neutral-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] active:scale-95"
-            >
-              <Plus size={18} />
-              <span>Create Client</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-xl font-semibold hover:bg-neutral-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] active:scale-95 w-fit"
+          >
+            <Plus size={18} />
+            <span>Create Client</span>
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Profile & Stats */}
+          {/* Left Column: User & Stats */}
           <div
             className="space-y-6 lg:col-span-1 animate-fade-in-up"
             style={{ animationDelay: "100ms" }}
           >
-            {/* Profile Card */}
-            <div className="rounded-3xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-6 relative overflow-hidden group">
+            {/* User Profile Card */}
+            <div className="rounded-3xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-6 relative overflow-hidden group hover:border-white/10 transition-colors">
               <div className="absolute inset-0 bg-linear-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-              <div className="flex items-center gap-4 relative z-10">
-                <div className="w-16 h-16 rounded-full p-0.5 bg-linear-to-br from-white/20 to-transparent">
-                  <img
-                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop"
-                    alt="Profile"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-white">{user.name}</h2>
-                  <p className="text-sm text-indigo-300">{user.email}</p>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-neutral-500 text-xs uppercase tracking-wider font-bold mb-1">
-                    Status
-                  </p>
-                  <div className="flex items-center gap-2 text-emerald-400 text-sm font-medium">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </span>
-                    Available
+              <div className="flex items-center gap-5 relative z-10">
+                <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 p-0.5 shadow-lg shadow-indigo-500/20">
+                  <div className="w-full h-full bg-black rounded-[14px] flex items-center justify-center text-2xl font-bold text-white">
+                    {user?.name?.charAt(0).toUpperCase() || "U"}
                   </div>
                 </div>
                 <div>
-                  <p className="text-neutral-500 text-xs uppercase tracking-wider font-bold mb-1">
-                    Location
+                  <h2 className="text-xl font-bold text-white tracking-tight">
+                    {user?.name || "User Name"}
+                  </h2>
+                  <p className="text-sm text-neutral-400 font-medium">
+                    {user?.email || "user@example.com"}
                   </p>
-                  <div className="flex items-center gap-1 text-white text-sm">
-                    🇺🇸 Los Angeles
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-3xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-5 group hover:border-indigo-500/20 transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-3 group-hover:scale-110 transition-transform">
-                  <CreditCard size={20} />
-                </div>
-                <p className="text-2xl font-bold text-white">$12.4k</p>
-                <p className="text-neutral-500 text-xs mt-1">
-                  Revenue this month
-                </p>
+            {/* Total Clients Stat */}
+            <div className="rounded-3xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-6 group hover:border-indigo-500/20 transition-colors relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-5 text-indigo-500 transform translate-x-1/2 -translate-y-1/2">
+                <Briefcase size={100} />
               </div>
-              <div className="rounded-3xl bg-neutral-900/40 backdrop-blur-xl border border-white/5 p-5 group hover:border-violet-500/20 transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center text-violet-400 mb-3 group-hover:scale-110 transition-transform">
+              <div className="relative z-10">
+                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition-transform">
                   <Briefcase size={20} />
                 </div>
-                <p className="text-2xl font-bold text-white">4</p>
-                <p className="text-neutral-500 text-xs mt-1">Active Projects</p>
+                <p className="text-4xl font-bold text-white tracking-tight">
+                  {clients.length}
+                </p>
+                <p className="text-neutral-500 text-sm font-medium mt-1">
+                  Total Active Clients
+                </p>
               </div>
             </div>
           </div>
@@ -182,68 +188,81 @@ const Dashboard = () => {
             className="lg:col-span-2 space-y-6 animate-fade-in-up"
             style={{ animationDelay: "200ms" }}
           >
-            {/* Search & Filter Bar */}
-            <div className="flex gap-4">
-              <div className="flex-1 relative group">
-                <Search
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within:text-white transition-colors"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  placeholder="Search clients..."
-                  className="w-full bg-neutral-900/40 border border-white/5 rounded-2xl py-3 pl-12 pr-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-neutral-900/60 focus:border-white/10 transition-all hover:bg-neutral-900/60"
-                />
+            {/* Client List Header */}
+            <div className="flex items-center justify-between px-2">
+              <h3 className="text-lg font-bold text-white">Your Clients</h3>
+              <div className="text-neutral-500 text-sm">
+                {clients.length} Clients
               </div>
-              <button className="px-4 bg-neutral-900/40 border border-white/5 rounded-2xl text-neutral-400 hover:text-white hover:bg-neutral-900/60 transition-all">
-                <MoreVertical size={18} />
-              </button>
             </div>
 
-            {/* Client List */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-bold text-white px-2">
-                Recent Clients
-              </h3>
-              <div className="grid gap-3">
-                {clients.map((client) => (
-                  <div
-                    key={client.id}
-                    className="group flex items-center justify-between p-4 rounded-2xl bg-neutral-900/40 border border-white/5 hover:border-white/10 hover:bg-neutral-900/60 transition-all cursor-pointer"
+            {/* Client Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {clients.length === 0 ? (
+                <div className="col-span-full flex flex-col items-center justify-center py-16 text-neutral-500 border border-white/5 rounded-3xl bg-neutral-900/20 border-dashed">
+                  <Briefcase size={48} className="mb-4 opacity-20" />
+                  <p>No clients found.</p>
+                  <button
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="text-indigo-400 text-sm mt-2 hover:underline"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-linear-to-br from-neutral-800 to-neutral-900 border border-white/5 flex items-center justify-center text-lg font-bold text-white group-hover:scale-105 transition-transform">
-                        {client.avatar}
+                    Create your first client
+                  </button>
+                </div>
+              ) : (
+                clientss.allClients.map((client) => (
+                  <div
+                    key={client._id}
+                    className="group relative p-5 rounded-2xl bg-neutral-900/40 border border-white/5 hover:border-white/10 hover:bg-neutral-900/60 transition-all cursor-pointer overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                    <div className="relative z-10 flex flex-col h-full justify-between gap-4">
+                      <div className="flex justify-between items-start">
+                        <div className="w-12 h-12 rounded-xl bg-linear-to-br from-neutral-800 to-neutral-900 border border-white/5 flex items-center justify-center text-lg font-bold text-white shadow-inner">
+                          {client.name.charAt(0).toUpperCase()}
+                        </div>
+                        <button className="text-neutral-600 hover:text-white transition-colors">
+                          <MoreVertical size={18} />
+                        </button>
                       </div>
+
                       <div>
-                        <h4 className="font-semibold text-white group-hover:text-indigo-300 transition-colors">
+                        <h4 className="font-bold text-lg text-white group-hover:text-indigo-300 transition-colors mb-1">
                           {client.name}
                         </h4>
-                        <p className="text-sm text-neutral-500">
-                          {client.company}
-                        </p>
+                        <div className="flex items-center gap-2 text-sm text-neutral-400 mb-1">
+                          <Building size={14} />
+                          <span className="truncate">{client.company}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-neutral-500">
+                          <Mail size={12} />
+                          <span className="truncate">{client.email}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-6">
-                      <div
-                        className={`hidden sm:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${
-                          client.status === "Active"
-                            ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                            : "bg-amber-500/10 border-amber-500/20 text-amber-400"
-                        }`}
-                      >
-                        {client.status === "Active" && (
-                          <CheckCircle2 size={12} />
-                        )}
-                        {client.status}
-                      </div>
-                      <button className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-neutral-500 hover:text-white hover:bg-white/10 transition-colors">
-                        <MoreVertical size={16} />
-                      </button>
+
+                      {/* <div className="mt-2 pt-3 border-t border-white/5 flex justify-between items-center">
+                        <div
+                          className={`flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-md ${
+                            client.status === "Active"
+                              ? "bg-emerald-500/10 text-emerald-400"
+                              : "bg-amber-500/10 text-amber-400"
+                          }`}
+                        >
+                          <div
+                            className={`w-1.5 h-1.5 rounded-full ${
+                              client.status === "Active"
+                                ? "bg-emerald-500"
+                                : "bg-amber-500"
+                            }`}
+                          ></div>
+                          {client.status}
+                        </div>
+                      </div> */}
                     </div>
                   </div>
-                ))}
-              </div>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -253,10 +272,10 @@ const Dashboard = () => {
       {isCreateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in"
             onClick={() => setIsCreateModalOpen(false)}
           ></div>
-          <div className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 shadow-2xl animate-fade-in-up">
+          <div className="relative w-full max-w-lg bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 shadow-2xl animate-scale-up">
             <button
               onClick={() => setIsCreateModalOpen(false)}
               className="absolute top-6 right-6 text-neutral-500 hover:text-white transition-colors"
@@ -264,106 +283,83 @@ const Dashboard = () => {
               <X size={24} />
             </button>
 
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-white mb-2">
-                Add New Client
-              </h2>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">New Client</h2>
               <p className="text-neutral-400 text-sm">
-                Create a new client profile to manage projects and invoices.
+                Add a new client to your dashboard (Demo).
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-neutral-400 ml-1">
-                    Client Name
-                  </label>
-                  <div className="relative group/input">
-                    <User
-                      size={18}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within/input:text-indigo-400 transition-colors"
-                    />
-                    <input
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      type="text"
-                      placeholder="John Doe"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-neutral-400 ml-1">
-                    Email Address
-                  </label>
-                  <div className="relative group/input">
-                    <Mail
-                      size={18}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within/input:text-indigo-400 transition-colors"
-                    />
-                    <input
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      type="email"
-                      placeholder="john@example.com"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
-                    />
-                  </div>
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-400 ml-1">
+                  Client Name
+                </label>
+                <input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  type="text"
+                  placeholder="e.g. Marcus Johnson"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
+                />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-neutral-400 ml-1">
-                    Company
-                  </label>
-                  <div className="relative group/input">
-                    <Building
-                      size={18}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within/input:text-indigo-400 transition-colors"
-                    />
-                    <input
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      required
-                      type="text"
-                      placeholder="Acme Inc."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-neutral-400 ml-1">
-                    Phone
-                  </label>
-                  <div className="relative group/input">
-                    <Phone
-                      size={18}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within/input:text-indigo-400 transition-colors"
-                    />
-                    <input
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
-                    />
-                  </div>
-                </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-400 ml-1">
+                  Email
+                </label>
+                <input
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  type="email"
+                  placeholder="client@mail.com"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-400 ml-1">
+                  Company
+                </label>
+                <input
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  required
+                  type="text"
+                  placeholder="e.g. TechFlow Solutions"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-neutral-400 ml-1">
+                  Address
+                </label>
+                <input
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Full Address"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-neutral-600 focus:outline-hidden focus:bg-white/10 focus:border-indigo-500/50 transition-all"
+                />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-white text-black rounded-xl font-bold hover:bg-neutral-200 transition-colors shadow-lg shadow-white/5 mt-4"
+                disabled={isSubmitting}
+                className="w-full py-3.5 bg-white text-black rounded-xl font-bold hover:bg-neutral-200 transition-colors shadow-lg shadow-white/5 mt-4 flex items-center justify-center gap-2"
               >
-                Create Client
+                {isSubmitting ? (
+                  <Loader2 size={18} className="animate-spin" />
+                ) : (
+                  <span>Create Client</span>
+                )}
               </button>
             </form>
           </div>

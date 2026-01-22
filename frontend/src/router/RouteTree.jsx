@@ -49,18 +49,21 @@ const createClientRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "create-client",
   component: CreateClient,
+  beforeLoad: checkAuth,
 });
 
 const createInvoiceRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "create-invoice",
   component: CreateInvoice,
+  beforeLoad: checkAuth,
 });
 
 const createContractRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "create-contract",
   component: CreateContract,
+  beforeLoad: checkAuth,
 });
 
 const dashboardRoute = createRoute({
@@ -70,10 +73,10 @@ const dashboardRoute = createRoute({
   beforeLoad: checkAuth,
 });
 
-const postsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "posts",
-});
+// const postsRoute = createRoute({
+//   getParentRoute: () => rootRoute,
+//   path: "posts",
+// });
 
 export const routeTree = rootRoute.addChildren([
   indexRoute,
@@ -85,5 +88,5 @@ export const routeTree = rootRoute.addChildren([
   createInvoiceRoute,
   createContractRoute,
   dashboardRoute,
-  postsRoute,
+  // postsRoute,
 ]);
