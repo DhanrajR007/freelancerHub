@@ -19,46 +19,6 @@ import { updateClients } from "../store/slice/client.slice";
 import { useQuery } from "@tanstack/react-query";
 
 const Dashboard = () => {
-  // Dummy Data
-  const [clients, setClients] = useState([
-    {
-      id: 1,
-      name: "Marcus Johnson",
-      company: "TechFlow Solutions",
-      email: "marcus@techflow.com",
-      status: "Active",
-      phone: "+1 (555) 123-4567",
-      address: "123 Tech Blvd, San Francisco, CA",
-    },
-    {
-      id: 2,
-      name: "Sarah Williams",
-      company: "Design Crafters",
-      email: "sarah@designcrafters.com",
-      status: "Active",
-      phone: "+1 (555) 987-6543",
-      address: "456 Design Ln, New York, NY",
-    },
-    {
-      id: 3,
-      name: "James Chen",
-      company: "Apex Innovations",
-      email: "james.c@apex.io",
-      status: "Pending",
-      phone: "+1 (555) 456-7890",
-      address: "789 Innovation Dr, Austin, TX",
-    },
-    {
-      id: 4,
-      name: "Emily Davis",
-      company: "Wanderlust Travel",
-      email: "emily@wanderlust.com",
-      status: "Active",
-      phone: "+1 (555) 222-3333",
-      address: "101 Travel Rd, Miami, FL",
-    },
-  ]);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -174,7 +134,7 @@ const Dashboard = () => {
                   <Briefcase size={20} />
                 </div>
                 <p className="text-4xl font-bold text-white tracking-tight">
-                  {clients.length}
+                  {clientss?.allClients?.length}
                 </p>
                 <p className="text-neutral-500 text-sm font-medium mt-1">
                   Total Active Clients
@@ -192,13 +152,13 @@ const Dashboard = () => {
             <div className="flex items-center justify-between px-2">
               <h3 className="text-lg font-bold text-white">Your Clients</h3>
               <div className="text-neutral-500 text-sm">
-                {clients.length} Clients
+                {clientss?.allClients?.length} Clients
               </div>
             </div>
 
             {/* Client Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {clients.length === 0 ? (
+              {clientss?.allClients?.length === 0 ? (
                 <div className="col-span-full flex flex-col items-center justify-center py-16 text-neutral-500 border border-white/5 rounded-3xl bg-neutral-900/20 border-dashed">
                   <Briefcase size={48} className="mb-4 opacity-20" />
                   <p>No clients found.</p>

@@ -8,6 +8,7 @@ import Pricing from "../pages/Pricing";
 import CreateClient from "../pages/CreateClient";
 import CreateInvoice from "../pages/CreateInvoice";
 import CreateContract from "../pages/CreateContract";
+import ClientDetails from "../pages/ClientDetails";
 import Dashboard from "../pages/Dashboard";
 import { checkAuth } from "../utils/helper";
 
@@ -66,6 +67,13 @@ const createContractRoute = createRoute({
   beforeLoad: checkAuth,
 });
 
+const clientDetailsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "client-details",
+  component: ClientDetails,
+  beforeLoad: checkAuth,
+});
+
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "dashboard",
@@ -87,6 +95,7 @@ export const routeTree = rootRoute.addChildren([
   createClientRoute,
   createInvoiceRoute,
   createContractRoute,
+  clientDetailsRoute,
   dashboardRoute,
   // postsRoute,
 ]);
