@@ -27,7 +27,7 @@ export const createContract = async (
   terms,
   status,
   clientId,
-  userId
+  userId,
 ) => {
   const Contract = await contract.create({
     title,
@@ -40,8 +40,8 @@ export const createContract = async (
   });
   return Contract;
 };
-export const getContractByClientId = async (clientId) => {
-  const client = await contract.find({ clientId });
+export const getContractByUserId = async (userId) => {
+  const client = await contract.find({ userId });
   return client;
 };
 export const getContractById = async (id) => {
@@ -53,15 +53,15 @@ export const createInvoice = async (
   dueDate,
   tax,
   invoiceNumber,
-  clientId,  
+  clientId,
   contractId,
-  userId
+  userId,
 ) => {
   const subTotal = items.reduce((sum, item) => {
     return sum + item.qty * item.price;
   }, 0);
 
-  const taxAmount = subTotal * (tax/100);
+  const taxAmount = subTotal * (tax / 100);
   const totalAmount = subTotal + taxAmount;
 
   const invoice = await Invoice.create({
@@ -71,7 +71,7 @@ export const createInvoice = async (
     invoiceNumber,
     items,
     subTotal,
-    tax:taxAmount,  
+    tax: taxAmount,
     totalAmount,
     status: "unpaid",
 
