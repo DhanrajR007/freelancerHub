@@ -30,12 +30,26 @@ const Navbar = () => {
       </div>
       <div className="flex items-center gap-4">
         {isAuthenticated ? (
-          <Link
-            to="/dashboard"
-            className="px-5 py-2 rounded-xl bg-white text-neutral-950 font-semibold text-sm hover:bg-neutral-200 transition-colors shadow-lg shadow-white/10"
-          >
-            Dashboard
-          </Link>
+          <>
+            <Link
+              to="/dashboard"
+              className="px-5 py-2 rounded-xl bg-white text-neutral-950 font-semibold text-sm hover:bg-neutral-200 transition-colors shadow-lg shadow-white/10"
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/contracts"
+              className="hidden md:block text-neutral-400 hover:text-white text-sm font-medium transition-colors"
+            >
+              Contracts
+            </Link>
+            <Link
+              to="/invoices"
+              className="hidden md:block text-neutral-400 hover:text-white text-sm font-medium transition-colors"
+            >
+              Invoices
+            </Link>
+          </>
         ) : (
           <Link
             to="/auth"
