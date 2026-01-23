@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ChevronLeft,
   Mail,
@@ -13,9 +13,12 @@ import {
   Clock,
   Briefcase,
 } from "lucide-react";
+import { getClienById } from "../api/client.api";
+import { useQuery } from "@tanstack/react-query";
 
 const ClientDetails = () => {
   const navigate = useNavigate();
+  const [clienttt, setClient] = useState(null);
 
   // Dummy Client Data
   const client = {
@@ -30,6 +33,22 @@ const ClientDetails = () => {
     totalProjects: 3,
     totalSpent: "$12,500",
   };
+
+  const { id } = useSearch({
+    strict: false,
+  });
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["client", id],
+    queryFn: () => getClienById(id),
+    enabled: !!id, // only run when id exists
+  });
+  console.log(data?.client);
+
+  // useEffect(() => {
+  //   if (clientt) {
+  //     setClient(clientt);
+  //   }
+  // }, [clientt]);
 
   return (
     <div className="min-h-screen bg-[#050505] text-white flex flex-col relative overflow-hidden font-sans selection:bg-indigo-500/30">
@@ -65,20 +84,20 @@ const ClientDetails = () => {
           <div className="flex items-center gap-6">
             <div className="w-24 h-24 rounded-3xl bg-linear-to-br from-indigo-500 to-purple-600 p-0.5 shadow-2xl shadow-indigo-500/20">
               <div className="w-full h-full bg-[#0A0A0A] rounded-[22px] flex items-center justify-center text-3xl font-bold text-white">
-                {client.initials}
+                {data?.client?.name?.charAt(0).toUpperCase() || "U"}
               </div>
             </div>
             <div>
               <h1 className="text-4xl font-bold text-white tracking-tight mb-2">
-                {client.name}
+                {data?.client?.name}
               </h1>
               <div className="flex items-center gap-3 text-neutral-400">
                 <div className="flex items-center gap-1.5 bg-white/5 px-3 py-1 rounded-full border border-white/5">
                   <Building size={14} className="text-indigo-400" />
-                  <span className="text-sm">{client.company}</span>
+                  <span className="text-sm">{data?.client?.company}</span>
                 </div>
                 <div className="w-1 h-1 bg-neutral-700 rounded-full"></div>
-                <span className="text-sm">{client.email}</span>
+                <span className="text-sm">{data?.client?.email}</span>
               </div>
             </div>
           </div>
@@ -90,7 +109,14 @@ const ClientDetails = () => {
                 size={18}
                 className="text-neutral-400 group-hover:text-indigo-400 transition-colors"
               />
-              <span className="font-semibold text-sm">Create Contract</span>
+              <span
+                className="font-semibold text-sm"
+                onClick={() =>
+                  navigate({ to: "/create-contract", search: { clientId: id } })
+                }
+              >
+                Create Contract
+              </span>
             </button>
 
             <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-xl hover:bg-neutral-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] active:scale-95 font-bold text-sm">
@@ -148,27 +174,27 @@ const ClientDetails = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
                 <InfoItem
                   label="Full Name"
-                  value={client.name}
+                  value={data?.client?.name}
                   icon={<Briefcase size={16} />}
                 />
                 <InfoItem
                   label="Email Address"
-                  value={client.email}
+                  value={data?.client?.email}
                   icon={<Mail size={16} />}
                 />
                 <InfoItem
                   label="Company"
-                  value={client.company}
+                  value={data?.client?.company}
                   icon={<Building size={16} />}
                 />
                 <InfoItem
                   label="Address"
-                  value={client.address}
+                  value={data?.client?.address}
                   icon={<MapPin size={16} />}
                 />
                 <InfoItem
                   label="Client Since"
-                  value={client.joinedDate}
+                  value={data?.client?.createdAt}
                   icon={<Calendar size={16} />}
                 />
                 <InfoItem

@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createClient, getAllClient } from "../api/client.api";
 import { updateClients } from "../store/slice/client.slice";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 
 const Dashboard = () => {
   const [formData, setFormData] = useState({
@@ -31,6 +32,7 @@ const Dashboard = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     data: clientss = [],
     isLoading,
@@ -173,6 +175,12 @@ const Dashboard = () => {
                 clientss.allClients.map((client) => (
                   <div
                     key={client._id}
+                    onClick={() =>
+                      navigate({
+                        to: "/client-details",
+                        search: { id: client._id },
+                      })
+                    }
                     className="group relative p-5 rounded-2xl bg-neutral-900/40 border border-white/5 hover:border-white/10 hover:bg-neutral-900/60 transition-all cursor-pointer overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>

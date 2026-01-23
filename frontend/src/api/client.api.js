@@ -13,3 +13,9 @@ export const getAllClient = async () => {
     return response.data;
   } catch (error) {}
 };
+export const getClienById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/client/${id}`);
+    return response.data;
+  } catch (error) {}
+};
