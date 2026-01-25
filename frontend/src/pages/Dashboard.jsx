@@ -46,6 +46,7 @@ const Dashboard = () => {
   });
   useEffect(() => {
     dispatch(updateClients(clientss.allClients));
+    sessionStorage.setItem("clients", JSON.stringify(clientss.allClients));
     console.log(clientss.allClients);
   }, [clientss]);
   if (isLoading) {

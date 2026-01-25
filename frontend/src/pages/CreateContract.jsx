@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   FileText,
   Calendar,
@@ -20,7 +21,8 @@ const CreateContract = () => {
     value: "",
     terms: "",
   });
-
+  const clients = useSelector((state) => state.clients.clients);
+  console.log(clients);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -90,8 +92,11 @@ const CreateContract = () => {
                         <option value="" disabled>
                           Select a client
                         </option>
-                        <option value="1">Acme Corp</option>
-                        <option value="2">Global Tech</option>
+                        {clients?.map((client) => (
+                          <option key={client._id} value={client._id}>
+                            {client.name}
+                          </option>
+                        ))}
                       </select>
                       <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                         <svg
